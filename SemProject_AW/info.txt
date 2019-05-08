@@ -1,0 +1,97 @@
+##########################################################################
+############################## ReadMe ####################################
+##########################################################################
+
+First, to be able to run the code, one should compile the LIBSVM function using the 
+libsvm-3.22 folder. More information of the installation of LIBSVM can be found on their 
+website : https://www.csie.ntu.edu.tw/~cjlin/libsvm/.
+
+The data should be contained in a folder named "antoine" in the current directory.
+This folder should contain the following : antoine/recordings/sbj1_20180419 and inside this folder the 
+kinematics and emg folders.
+
+Once everything is in place, the user should decide the approach to be run
+and run the "main.m" script inside the folder of the chosen approach. This script will 
+load the data and process it to be compatible with all the different functions. It will output
+a .mat file containing the data, under the name "New_data.mat" for the first approach or "data_2approach.mat"
+for the second approach. To be able to run the main file of the second approach, the file "New_data.mat" should have
+already been defined.
+
+Once this file is created, all the different scripts inside the given approach can be run in any order.
+
+Description of the scripts :
+First approach :
+
+    main.m :
+        Load the data and store it in a mat file to be used by the scripts implementing
+        the different classifiers.
+
+    onesingleESN.m :
+        This script implements a single ESN classifier and evaluates it per time window. 
+        It is separated in different cells containing different steps of the 
+        analysis.
+    
+    ESN_class_perTW_bis.m :
+        This script implements one single ESN classifier per time window. as the 
+        onesingleESN.m script, it is encapsulated in different cells.
+
+    LDA_class_bis.m : 
+        This script implement sequentially a single LDA classifier for all the time windows
+        and test it per time windows. The last cell implement the per time window
+        implementation.
+
+    SVM_analysis.m :
+        This script implement sequentially a single c-SVM classifier for all the time windows
+        and test it per time windows. The last cell implement the per time window
+        implementation. The given C-SVM parameters were optimized with a grid search
+        for this specific dataset.
+        If you get the error that fitcsvm has been deleted, it means you did not install
+        LIBSVM properly.
+
+    GMM_analysis :
+        This script implements the same as above but with 2-components GMM for the 
+        first approach and 1-component GMM for the per time window analysis.
+
+    compare_method.m :
+        Run all the given scripts and keeps only the per time window analysis for
+        all the different classifiers, and plot the results to compare
+        the algorithms.
+
+    plot_aper_todebug.m :
+        script verifying the hypothesis used with the first data. It computes the aperture at
+        the end of each trial not being a no grasp, and plot it. Finally it computes
+        statistics to verify the relevance of the results.
+
+    verify_ycoord.m :
+        simple script computing the average starting position of the hand and standard
+        deviation.
+
+Second approach :
+    
+    main.m : 
+        Load the data and store it in a mat file to be used by the scripts implementing
+        the different classifiers.
+
+    ESN_sec.m : 
+        This script implements the per phase analysis using ESN as classifiers. First it loads
+        the data of the phase, split it in 5 blocks, and crossvalidate the train/test.
+
+    LDA_sec.m :
+        Implements the per phase analysis using LDA classifiers. First it extracts the features,
+        then load the data of the phase, separate it in 5 blocks, and crossvalidate.
+
+    SVM_sec.m :
+        Implements the 3 phase analysis with C-SVM classifiers. Same protocol as with LDA.
+        If you get the error that fitcsvm has been deleted, it means you did not install
+        LIBSVM properly.
+
+    GMM_sec.m :
+        Implements the 3 phases analysis with 1-component GMM classifiers. Same protocol
+        as with LDA and SVM.
+
+    location_peak.m :
+        Script computing the positiong of the highest aperture of the hand. The results are
+        displayed for each grasp type whether it is in the first or second phase.
+
+    
+    
